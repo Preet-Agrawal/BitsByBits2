@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 Leaderboard</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Player 1</th>
+                    <th>Player 2</th>
+                    <th>Problem</th>
+                    <th>Winner</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% duels.forEach(duel => { %>
+                    <tr>
+                        <td><%= duel.player1 %></td>
+                        <td><%= duel.player2 %></td>
+                        <td><a href="<%= duel.problemUrl %>" target="_blank">Problem Link</a></td>
+                        <td><%= duel.winner || "No winner yet" %></td>
+                        <td><%= duel.timestamp.toLocaleString() %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

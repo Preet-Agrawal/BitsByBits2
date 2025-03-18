@@ -1,0 +1,10 @@
+<h2>Duel Matchmaking</h2>
+<button onclick="findMatch()">Find Match</button>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+    function findMatch() {
+        socket.emit("find_match");
+    }
+</script>

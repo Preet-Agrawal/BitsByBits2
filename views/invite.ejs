@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Duel</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script defer src="/script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Join Duel</h1>
+        <input type="text" id="username" placeholder="Enter your username">
+        <button id="joinViaInvite">Join via Invite</button>
+        <h2 id="status"></h2>
+    </div>
+    <script>
+        const socket = io();
+        const inviteCode = "<%= inviteCode %>"; // Pass the invite code from EJS to JavaScript
+
+        document.getElementById("joinViaInvite").addEventListener("click", () => {
+            const username = document.getElementById("username").value.trim();
+            if (username) {
+                socket.emit("joinViaInvite", inviteCode, username);
+                document.getElementById("status").textContent = "Joining duel...";
+            } else {
+                alert("Please enter a username!");
+            }
+        });
+
+        socket.on("invalidInvite", (message) => {
+            alert(message);
+        });
+
+        socket.on("startDuel", ({ duelId, opponent }) => {
+            document.getElementById("status").textContent = `Matched with ${opponent}! Redirecting to Codeforces...`;
+            const codeforcesUrl = `https://codeforces.com/problemset/problem/1/A?duelId=${duelId}`;
+
+            // Open Codeforces in a popup window
+            const codeforcesWindow = window.open(codeforcesUrl, "Codeforces Duel", "width=800,height=600");
+
+            // Start the timer
+            startOverlayTimer(codeforcesWindow);
+        });
+
+        function startOverlayTimer(codeforcesWindow) {
+            const overlay = document.createElement("div");
+            overlay.innerHTML = `
+                <div id="timerOverlay" style="
+                    position: fixed; 
+                    top: 10px; 
+                    right: 10px; 
+                    background: rgba(0,0,0,0.7); 
+                    color: white; 
+                    padding: 10px; 
+                    border-radius: 5px; 
+                    font-size: 20px; 
+                    z-index: 10000;">
+                    Time Left: <span id="countdown">300</span>s
+                </div>
+            `;
+            document.body.appendChild(overlay);
+
+            let timeLeft = 300;
+            const countdown = setInterval(() => {
+                timeLeft--;
+                document.getElementById("countdown").textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    document.getElementById("timerOverlay").innerHTML = "⏳ Time Over!";
+                    if (codeforcesWindow && !codeforcesWindow.closed) {
+                        codeforcesWindow.close();
+                    }
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

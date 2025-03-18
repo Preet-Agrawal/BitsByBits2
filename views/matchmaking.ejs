@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matchmaking</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .matchmaking-container {
+            text-align: center;
+        }
+
+        .vs {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 20px 0;
+            position: relative;
+            animation: electricShock 1s infinite;
+        }
+
+        @keyframes electricShock {
+            0%, 100% {
+                text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+            }
+            50% {
+                text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 60px #00ff00;
+            }
+        }
+
+        .players {
+            display: flex;
+            justify-content: space-around;
+            font-size: 2rem;
+            margin-top: 20px;
+        }
+
+        .player {
+            padding: 10px 20px;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+            }
+            100% {
+                box-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="matchmaking-container">
+        <h1>Matchmaking...</h1>
+        <div class="players">
+            <div class="player"><%= player1 %></div>
+            <div class="vs">VS</div>
+            <div class="player"><%= player2 %></div>
+        </div>
+    </div>
+
+    <script>
+        // Redirect to Codeforces after 3 seconds
+        setTimeout(() => {
+            window.location.href = "<%= problemUrl %>";
+        }, 3000);
+    </script>
+</body>
+</html>

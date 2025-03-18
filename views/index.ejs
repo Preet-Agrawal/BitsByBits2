@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codeforces Duel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script defer src="/script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Codeforces Duel</h1>
+        <% if (user) { %>
+            <p>Welcome, <%= user.username %>!</p>
+            <button id="joinDuel">Join Duel</button>
+            <button id="generateInviteCode">Generate Invite Code</button>
+            <input type="text" id="inviteCodeInput" placeholder="Enter invite code">
+            <button id="joinByInviteCode">Join by Invite Code</button>
+            <button id="viewLeaderboard">View Leaderboard</button>
+            <a href="/logout"><button>Logout</button></a>
+        <% } else { %>
+            <a href="/login"><button>Login</button></a>
+            <a href="/register"><button>Register</button></a>
+        <% } %>
+        <h2 id="status"></h2>
+    </div>
+</body>
+</html>
